@@ -23,6 +23,8 @@ import java.util.zip.ZipInputStream;
  * @since 2007-01-12
  * 
  *        WhereIsClass 用于在指定的单个或多个目录中查找jar中是否存在指定的class文件
+ *
+ *        $Id
  */
 public class WhereIsClass {
 
