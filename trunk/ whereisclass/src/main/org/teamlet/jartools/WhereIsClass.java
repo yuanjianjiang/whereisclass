@@ -28,8 +28,6 @@ import java.util.zip.ZipInputStream;
  */
 public class WhereIsClass {
 
-	private String className = null;
-
 	private int resultCounts = 0;
 
 	// =================================================================================================================
@@ -44,21 +42,22 @@ public class WhereIsClass {
 			usage();
 		}
 
-		String folders = args[0];
-		String className = args[1];
-		boolean isSingle = true;
-		if (folders.indexOf(";") > 0) {
-			isSingle = false;
-		}
-		WhereIsClass whereisclass = new WhereIsClass();
+		new WhereIsClass(args[0], args[1]);
 
-		if (isSingle) {
-			whereisclass.findClassInSingleFolder(folders, className);
-		}
+	}
 
-		else {
-			whereisclass.searchInMutiplePath(folders, className);
-		}
+	public WhereIsClass(String folders, String className) {
+		router(folders, className);
+	}
+
+	// ===============================================================================================================
+	/**
+	 * 
+	 * @param folders
+	 * @param className
+	 */
+	private void router(String folders, String className) {
+		searchInMutiplePath(folders, className);
 	}
 
 	// ===============================================================================================================
@@ -87,23 +86,21 @@ public class WhereIsClass {
 			log("\n*** Error:invalidated folder\n");
 			usage();
 		}
-		
-		className = classToFind;
-		className = className.replaceAll("\\.", "/");
+		classToFind = classToFind.replaceAll("\\.", "/");
 
 		File rootFolder = new File(baseDir);
 
-
 		log("\nResult：");
 		log("=======");
-		findHelper(rootFolder, 1);
+		new FindHandler(classToFind).find(rootFolder, 1);
 		log("=======");
 		log(" path  : " + baseDir);
-		log(" target: " + className);
+		log(" target: " + classToFind);
 		log(" counts: " + resultCounts);
 		resultCounts = 0;
 	}
 
+	// ===============================================================================================================
 	/**
 	 * 检查输入的文件夹参数是否有效
 	 * 
@@ -115,77 +112,87 @@ public class WhereIsClass {
 		return dir.isDirectory() && dir.exists();
 	}
 
-	// ===============================================================================================================
-	/**
-	 * 循环遍历目录下的子目录
-	 * 
-	 * @param rootFolder
-	 * @param level
-	 */
-	private void findHelper(File rootFolder, int level) {
-
-		File[] subFiles = rootFolder.listFiles();
-
-		for (int i = 0; i < subFiles.length; i++) {
-			if (subFiles[i].isFile()) {
-				if (subFiles[i].getName().toLowerCase().indexOf(".jar") != -1) {
-					searchInJar(subFiles[i].getAbsolutePath());
-				}
-			} else {
-				findHelper(subFiles[i], level + 1);
-			}
-		}
-
-	}
-
-	// ===============================================================================================================
-	/**
-	 * 遍历jar内文件名称
-	 * 
-	 * @param jarFile
-	 */
-	private void searchInJar(String jarFile) {
-		try {
-			FileInputStream fInStream = new FileInputStream(jarFile);
-			BufferedInputStream bInStream = new BufferedInputStream(fInStream);
-			ZipInputStream zInStream = new ZipInputStream(bInStream);
-			ZipEntry zipEntry = null;
-
-			while ((zipEntry = zInStream.getNextEntry()) != null) {
-				if (zipEntry.isDirectory()) {
-					continue;
-				}
-
-				if (zipEntry.getName().indexOf(className) != -1) {
-					log(" " + zipEntry.getName() + "   ->   (" + jarFile + ")");
-					resultCounts++;
-				}
-			}
-			zInStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	// ================================================================================================================
 	/**
 	 * 输出信息
 	 * 
 	 * @param info
 	 */
-	private static void log(String info) {
+	protected void log(String info) {
 		System.out.println(info);
 	}
-
 	// ===============================================================================================================
 	/**
 	 * 使用方法提示
 	 */
 	private static void usage() {
-		log("Usage: ");
-		log("java -jar WhereIsClass.jar dir[;dir] className");
+		System.out.println("Usage: ");
+		System.out.println("java -jar WhereIsClass.jar dir[;dir] className");
 		System.exit(1);
 	}
 
+	// ===============================================================================================================
+	class FindHandler {
+
+		private String className = null;
+
+		public FindHandler(String className) {
+			this.className = className;
+		}
+
+		// ==========================================================================================================
+		/**
+		 * 循环遍历目录下的子目录
+		 * 
+		 * @param rootFolder
+		 * @param level
+		 */
+		public void find(File rootFolder, int level) {
+
+			File[] subFiles = rootFolder.listFiles();
+
+			for (int i = 0; i < subFiles.length; i++) {
+				if (subFiles[i].isFile()) {
+					if (subFiles[i].getName().toLowerCase().indexOf(".jar") != -1) {
+						searchInJar(subFiles[i].getAbsolutePath());
+					}
+				} else {
+					find(subFiles[i], level + 1);
+				}
+			}
+
+		}
+
+		// ===========================================================================================================
+		/**
+		 * 遍历jar内文件名称
+		 * 
+		 * @param jarFile
+		 */
+		private void searchInJar(String jarFile) {
+			try {
+				FileInputStream fInStream = new FileInputStream(jarFile);
+				BufferedInputStream bInStream = new BufferedInputStream(
+						fInStream);
+				ZipInputStream zInStream = new ZipInputStream(bInStream);
+				ZipEntry zipEntry = null;
+
+				while ((zipEntry = zInStream.getNextEntry()) != null) {
+					if (zipEntry.isDirectory()) {
+						continue;
+					}
+
+					if (zipEntry.getName().indexOf(className) != -1) {
+						log(" " + zipEntry.getName() + "   ->   (" + jarFile
+								+ ")");
+						resultCounts++;
+					}
+				}
+				zInStream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	// ===============================================================================================================
 }
