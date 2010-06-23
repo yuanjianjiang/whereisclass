@@ -63,16 +63,6 @@ public class WhereIsClass {
 
 	// ===============================================================================================================
 	/**
-	 * 使用方法提示
-	 */
-	private static void usage() {
-		System.out.println("使用方法: ");
-		System.out.println("java -jar WhereIsClass.jar <dir[;dir]> <classname>");
-		System.exit(1);
-	}
-
-	// ===============================================================================================================
-	/**
 	 * 在多个路径下查找class
 	 * 
 	 * @param classToFind
@@ -93,19 +83,33 @@ public class WhereIsClass {
 	 * @param classToFind
 	 */
 	public void findClassInSingleFolder(String baseDir, String classToFind) {
-
-		System.out.println("\n*** 查找路径: " + baseDir);
+		if (!isValidedFolder(baseDir)) {
+			log("无效的文件夹");
+			usage();
+		}
+		log("\n*** 查找路径: " + baseDir);
 		// this.baseDir = baseDir;
 		className = classToFind;
 		className = className.replaceAll("\\.", "/");
 
 		File rootFolder = new File(baseDir);
 
-		System.out.println("*** 目标类名: " + className);
-		System.out.println("\n查找结果：");
+		log("*** 目标类名: " + className);
+		log("\n查找结果：");
 		findHelper(rootFolder, 1);
-		System.out.println(baseDir + "中共有  " + resultCounts + "  个");
+		log(baseDir + "中共有  " + resultCounts + "  个");
 		resultCounts = 0;
+	}
+
+	/**
+	 * 检查输入的文件夹参数是否有效
+	 * 
+	 * @param folder
+	 * @return
+	 */
+	private boolean isValidedFolder(String folder) {
+		File dir = new File(folder);
+		return dir.isDirectory() && dir.exists();
 	}
 
 	// ===============================================================================================================
@@ -150,8 +154,7 @@ public class WhereIsClass {
 				}
 
 				if (zipEntry.getName().indexOf(className) != -1) {
-					System.out.println(" " + zipEntry.getName() + "\n (在"
-							+ jarFile + " 文件中)");
+					log(" " + zipEntry.getName() + "\n (在" + jarFile + " 文件中)");
 					resultCounts++;
 				}
 			}
@@ -159,6 +162,26 @@ public class WhereIsClass {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	// ================================================================================================================
+	/**
+	 * 输出信息
+	 * 
+	 * @param info
+	 */
+	private static void log(String info) {
+		System.out.println(info);
+	}
+
+	// ===============================================================================================================
+	/**
+	 * 使用方法提示
+	 */
+	private static void usage() {
+		log("使用方法: ");
+		log("java -jar WhereIsClass.jar <dir[;dir]> <classname>");
+		System.exit(1);
 	}
 
 	// ===============================================================================================================
