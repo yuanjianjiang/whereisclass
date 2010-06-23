@@ -6,7 +6,14 @@ WhereIsClass是一个在jar中查找指定class的工具，允许在单个或多
 
 = Details =
 
-V0.1——2010-06-23
+V0.2 2010-06-23
+
+增加了图形用户界面，用户可以通过界面来操作。
+
+>java -jar whereisclass_v0.2.jar 
+
+
+V0.1——2010-06-22
 
 可以通过命令行运行WhereIsClass
 
