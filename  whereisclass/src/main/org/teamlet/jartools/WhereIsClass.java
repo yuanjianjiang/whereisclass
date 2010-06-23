@@ -38,7 +38,7 @@ public class WhereIsClass {
 	 */
 	public static void main(String[] args) {
 
-		if (args.length < 0 || args.length > 2) {
+		if (args.length != 2) {
 			usage();
 		}
 
