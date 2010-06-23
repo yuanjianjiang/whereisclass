@@ -22,7 +22,7 @@ import java.util.zip.ZipInputStream;
  * @author <a href="mailto:teamlet@gmail.com">David</a>
  * @since 2007-01-12
  * 
- *        WhereIsClass 用于在指定的单个或多个目录中查找jar中是否存在指定的class文件
+ *        WhereIsClass 用于查找目录中包含的所有jar是否存在指定的class文件
  * 
  *        $Id
  */
@@ -34,7 +34,7 @@ public class WhereIsClass {
 
 	// =================================================================================================================
 	/**
-	 * 主函数
+	 * Main
 	 * 
 	 * @param args
 	 */
@@ -84,20 +84,24 @@ public class WhereIsClass {
 	 */
 	public void findClassInSingleFolder(String baseDir, String classToFind) {
 		if (!isValidedFolder(baseDir)) {
-			log("无效的文件夹");
+			log("\n*** Error:无效的文件夹\n");
 			usage();
 		}
-		log("\n*** 查找路径: " + baseDir);
+		
 		// this.baseDir = baseDir;
 		className = classToFind;
 		className = className.replaceAll("\\.", "/");
 
 		File rootFolder = new File(baseDir);
 
-		log("*** 目标类名: " + className);
-		log("\n查找结果：");
+
+		log("\nResult：");
+		log("=======");
 		findHelper(rootFolder, 1);
-		log(baseDir + "中共有  " + resultCounts + "  个");
+		log("=======");
+		log(" path  : " + baseDir);
+		log(" target: " + className);
+		log(" counts: " + resultCounts);
 		resultCounts = 0;
 	}
 
@@ -154,7 +158,7 @@ public class WhereIsClass {
 				}
 
 				if (zipEntry.getName().indexOf(className) != -1) {
-					log(" " + zipEntry.getName() + "\n (在" + jarFile + " 文件中)");
+					log(" " + zipEntry.getName() + "   ->   (" + jarFile + ")");
 					resultCounts++;
 				}
 			}
@@ -179,8 +183,8 @@ public class WhereIsClass {
 	 * 使用方法提示
 	 */
 	private static void usage() {
-		log("使用方法: ");
-		log("java -jar WhereIsClass.jar <dir[;dir]> <classname>");
+		log("Usage: ");
+		log("java -jar WhereIsClass.jar dir[;dir] className");
 		System.exit(1);
 	}
 
