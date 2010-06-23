@@ -23,7 +23,7 @@ import java.util.zip.ZipInputStream;
  * @since 2007-01-12
  * 
  *        WhereIsClass 用于在指定的单个或多个目录中查找jar中是否存在指定的class文件
- *
+ * 
  *        $Id
  */
 public class WhereIsClass {
@@ -40,83 +40,25 @@ public class WhereIsClass {
 	 */
 	public static void main(String[] args) {
 
-		checkArguments(args);
-
-		String[] copyArgs = new String[3];
-
-		if (!args[0].startsWith("-") && args.length == 2) {
-			copyArgs[0] = "-s";
-			copyArgs[1] = args[0];
-			copyArgs[2] = args[1];
-		}
-
-		String type = copyArgs[0].substring(1);
-
-		if (!isSingle(type) && !isMutiple(type)) {
+		if (args.length < 0 || args.length > 2) {
 			usage();
 		}
 
-		String folder = copyArgs[1];
-		String className = copyArgs[2];
+		String folders = args[0];
+		String className = args[1];
+		boolean isSingle = true;
+		if (folders.indexOf(";") > 0) {
+			isSingle = false;
+		}
 		WhereIsClass whereisclass = new WhereIsClass();
 
-		if (isSingle(type)) {
-			whereisclass.findClassInSingleFolder(folder, className);
+		if (isSingle) {
+			whereisclass.findClassInSingleFolder(folders, className);
 		}
 
-		if (isMutiple(type)) {
-			whereisclass.searchInMutiplePath(folder, className);
+		else {
+			whereisclass.searchInMutiplePath(folders, className);
 		}
-	}
-
-	// ================================================================================================================
-	/**
-	 * 检查输入参数，不符合的提示使用方法
-	 * 
-	 * @param args
-	 */
-	private static void checkArguments(String[] args) {
-		if (args[0].startsWith("-") && args.length < 3) {
-			usage();
-		}
-
-		if (!args[0].startsWith("-") && args.length < 2) {
-			usage();
-		}
-
-		if (args.length < 0 || args.length > 3) {
-			usage();
-		}
-	}
-
-	// ================================================================================================================
-	/**
-	 * 判断是否是多目录情况
-	 * 
-	 * @param type
-	 * @return
-	 */
-	private static boolean isMutiple(String type) {
-		boolean isMutiple = false;
-		isMutiple = type.equalsIgnoreCase("M");
-		if (!isMutiple)
-			isMutiple = type.equalsIgnoreCase("Multiple");
-		return isMutiple;
-	}
-
-	// ===============================================================================================================
-	/**
-	 * 判断是否是单目录情况
-	 * 
-	 * @param type
-	 * @return
-	 */
-	private static boolean isSingle(String type) {
-		boolean isSingle = false;
-		isSingle = type.equalsIgnoreCase("S");
-		if (!isSingle)
-			isSingle = type.equalsIgnoreCase("Single");
-		return isSingle;
 	}
 
 	// ===============================================================================================================
@@ -125,14 +67,7 @@ public class WhereIsClass {
 	 */
 	private static void usage() {
 		System.out.println("使用方法: ");
-		System.out.print("1、在单个路径下查找: ");
-		System.out
-				.println("java -jar WhereIsClass.jar -S|-s|Single|single <dir> classname");
-		System.out.print("2、在多个路径下查找: ");
-		System.out
-				.println("java -jar WhereIsClass.jar -M|-m|Multiple|multiple <dir;dirs;dir> classname");
-		System.out
-				.println("3、无 -参数的为单路径查找 : java -jar WhereIsClass.jar <dir> classname");
+		System.out.println("java -jar WhereIsClass.jar <dir[;dir]> <classname>");
 		System.exit(1);
 	}
 
