@@ -88,7 +88,6 @@ public class WhereIsClass {
 			usage();
 		}
 		
-		// this.baseDir = baseDir;
 		className = classToFind;
 		className = className.replaceAll("\\.", "/");
 
