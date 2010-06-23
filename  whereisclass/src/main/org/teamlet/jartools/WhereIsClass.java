@@ -84,7 +84,7 @@ public class WhereIsClass {
 	 */
 	public void findClassInSingleFolder(String baseDir, String classToFind) {
 		if (!isValidedFolder(baseDir)) {
-			log("\n*** Error:无效的文件夹\n");
+			log("\n*** Error:invalidated folder\n");
 			usage();
 		}
 		
