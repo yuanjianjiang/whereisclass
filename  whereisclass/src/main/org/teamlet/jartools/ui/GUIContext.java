@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 界面的上下文环境，缓存对象。窗体、动作需要的其他对象从这里获取。
  * 
- * @author David
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
  * 
  */
 public class GUIContext {

@@ -7,7 +7,7 @@ import javax.swing.UIManager;
 /**
  * 设置UI的风格
  * 
- * @author David
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
  * 
  */
 public class GUILookAndFeelSetter {

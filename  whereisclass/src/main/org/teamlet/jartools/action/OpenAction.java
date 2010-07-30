@@ -15,7 +15,7 @@ import org.teamlet.jartools.ui.InputDialog;
 /**
  * 打开输入对话框的动作
  * 
- * @author David
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
  * 
  */
 public class OpenAction extends AbstractAction {
@@ -25,16 +25,14 @@ public class OpenAction extends AbstractAction {
 
 	public OpenAction(String text, Icon icon) {
 		super(text, icon);
-		parent =  (JFrame) GUIContext.get(GUIConstant.TOP_JFRAME);
+		parent = (JFrame) GUIContext.get(GUIConstant.TOP_JFRAME);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		InputDialog dialog = new InputDialog(parent);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		dialog.setLocation((screenSize.width - parent.getWidth() / 2) / 2,
-				(screenSize.height - parent.getHeight() / 2) / 2);
+		dialog.setLocation((screenSize.width - parent.getWidth() / 2) / 2, (screenSize.height - parent.getHeight() / 2) / 2);
 		dialog.showDialog();
 	}
-
 }

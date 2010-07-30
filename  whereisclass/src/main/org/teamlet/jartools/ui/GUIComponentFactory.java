@@ -18,7 +18,7 @@ import org.teamlet.jartools.action.OpenAction;
 /**
  * 构建并设置界面需要的图形组件
  * 
- * @author David
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
  * 
  */
 public class GUIComponentFactory {
