@@ -10,7 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JTextPane;
 
-
+/**
+ * 
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
+ *
+ */
 public class GUIApp extends JApplet {
 
 	private static final long serialVersionUID = -3337092290540556086L;

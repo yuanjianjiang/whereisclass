@@ -3,7 +3,7 @@ package org.teamlet.jartools.ui;
 /**
  * 常量定义
  * 
- * @author David
+ * @author <a href="mailto:teamlet@gmail.com">David</a>
  * 
  */
 public final class GUIConstant {
