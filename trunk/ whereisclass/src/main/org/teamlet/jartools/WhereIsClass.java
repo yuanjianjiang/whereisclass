@@ -90,13 +90,13 @@ public class WhereIsClass {
 
 		File rootFolder = new File(baseDir);
 
-		log("\nResult：");
+		log("Result：");
 		log("=======");
 		new FindHandler(classToFind).find(rootFolder, 1);
 		log("=======");
-		log(" path  : " + baseDir);
-		log(" target: " + classToFind);
-		log(" counts: " + resultCounts);
+		log("path  : " + baseDir);
+		log("target: " + classToFind);
+		log("counts: " + resultCounts + "\n");
 		resultCounts = 0;
 	}
 
@@ -121,6 +121,7 @@ public class WhereIsClass {
 	protected void log(String info) {
 		System.out.println(info);
 	}
+
 	// ===============================================================================================================
 	/**
 	 * 使用方法提示
@@ -172,8 +173,7 @@ public class WhereIsClass {
 		private void searchInJar(String jarFile) {
 			try {
 				FileInputStream fInStream = new FileInputStream(jarFile);
-				BufferedInputStream bInStream = new BufferedInputStream(
-						fInStream);
+				BufferedInputStream bInStream = new BufferedInputStream(fInStream);
 				ZipInputStream zInStream = new ZipInputStream(bInStream);
 				ZipEntry zipEntry = null;
 
@@ -183,8 +183,7 @@ public class WhereIsClass {
 					}
 
 					if (zipEntry.getName().indexOf(className) != -1) {
-						log(" " + zipEntry.getName() + "   ->   (" + jarFile
-								+ ")");
+						log( zipEntry.getName() + "   ->   (" + jarFile + ")");
 						resultCounts++;
 					}
 				}
