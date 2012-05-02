@@ -14,6 +14,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import org.teamlet.jartools.action.DisplayHelpContentAction;
 import org.teamlet.jartools.action.OpenAction;
 
 /**
@@ -55,9 +56,10 @@ public class GUIComponentFactory {
 		appletMenu.addSeparator();
 		appletMenu.add(quit);
 
+		DisplayHelpContentAction helpAction = new DisplayHelpContentAction("显示帮助", null);
 		appletMenu = new JMenu("Help帮助");
 		appletMenu.setMnemonic('H');
-		JMenuItem about = new JMenuItem("显示帮助");
+		JMenuItem about = new JMenuItem(helpAction);
 		appletMenu.add(about);
 		menuBar.add(appletMenu);
 
@@ -83,7 +85,7 @@ public class GUIComponentFactory {
 		StyleConstants.setSpaceAbove(style, 4);
 		StyleConstants.setSpaceBelow(style, 4);
 
-		String message = "WhereIsClass 用于查找指定目录下包含的jar中存在的class";
+		String message = "WhereIsClass 用于查找指定目录下包含的jar中存在的class，更多信息请参见帮助。";
 		try {
 			document.insertString(document.getLength(), message, style);
 		} catch (BadLocationException badLocationException) {
