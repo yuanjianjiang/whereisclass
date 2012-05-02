@@ -94,9 +94,9 @@ public class WhereIsClass {
 		log("=======");
 		new FindHandler(classToFind).find(rootFolder, 1);
 		log("=======");
-		log("path  : " + baseDir);
-		log("target: " + classToFind);
-		log("counts: " + resultCounts + "\n");
+		log("Path  : " + baseDir);
+		log("Target: " + classToFind);
+		log("Counts: " + resultCounts + "\n");
 		resultCounts = 0;
 	}
 
@@ -183,7 +183,7 @@ public class WhereIsClass {
 					}
 
 					if (zipEntry.getName().indexOf(className) != -1) {
-						log( zipEntry.getName() + "   ->   (" + jarFile + ")");
+						log(zipEntry.getName() + "   ->   (" + jarFile + ")");
 						resultCounts++;
 					}
 				}
