@@ -7,13 +7,11 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JTextPane;
 
 /**
  * 
  * @author <a href="mailto:teamlet@gmail.com">David</a>
- *
+ * 
  */
 public class GUIApp extends JApplet {
 
@@ -24,18 +22,12 @@ public class GUIApp extends JApplet {
 	}
 
 	public void init() {
-		
-		GUILookAndFeelSetter.setDefaultLookAndFeel();
-		
-		JMenuBar menuBar = GUIComponentFactory.buildMenuBar();
-		JTextPane textPane = GUIComponentFactory.buildTextPane();
 
-		setContentPane(textPane);
-		setJMenuBar(menuBar);
+		GUILookAndFeelSetter.setDefaultLookAndFeel();
+		setContentPane(GUIComponentFactory.buildTextPane());
+		setJMenuBar(GUIComponentFactory.buildMenuBar());
 
 	}
-
-
 
 	public static void main(String[] args) {
 
@@ -49,8 +41,7 @@ public class GUIApp extends JApplet {
 		frame.setTitle("WhereIsClass");
 		frame.setSize(650, 500);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation((d.width - frame.getSize().width) / 2,
-				(d.height - frame.getSize().height) / 2);
+		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
