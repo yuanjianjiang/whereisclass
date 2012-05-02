@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
@@ -42,6 +43,8 @@ public class InputDialog extends JDialog implements ActionListener {
 
 	private JButton okButton;
 
+	private JButton cleanButton;
+
 	private JButton cancelButton;
 
 	StyledDocument document = null;
@@ -57,17 +60,20 @@ public class InputDialog extends JDialog implements ActionListener {
 		this.document = (StyledDocument) GUIContext.get(GUIConstant.DOCUMENT);
 
 		Container contentPane = getContentPane();
-		JPanel p1 = new JPanel(new GridLayout(2, 2, 3, 3));
-		p1.add(new JLabel("folders:"));
+		JPanel p1 = new JPanel(new GridLayout(2, 2, 2, 2));
+		p1.add(new JLabel("Folders:"));
 		p1.add(foders);
 		p1.add(getChooseJButton());
-		p1.add(new JLabel("target name:"));
+		// p1.add(getCleanJButton());
+		p1.add(new JLabel("Target Name:"));
 		p1.add(targetClass);
 		contentPane.add("Center", p1);
 
 		Panel p2 = new Panel();
-		okButton = addButton(p2, "Ok");
+
+		cleanButton = addButton(p2, "Clean");
 		cancelButton = addButton(p2, "Cancel");
+		okButton = addButton(p2, "Ok");
 		contentPane.add("South", p2);
 
 		setSize(340, 120);
@@ -83,10 +89,23 @@ public class InputDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
 		if (source == okButton) {
-			okPressed = true;
+			if (foders.getText().equalsIgnoreCase("")) {
+				JOptionPane.showMessageDialog(this, "路径不能为空!");
+			} else if (targetClass.getText().equalsIgnoreCase("")) {
+				JOptionPane.showMessageDialog(this, "查找类名关键字不能为空!");
+			} else if (!isValidedFolder(foders.getText())) {
+				JOptionPane.showMessageDialog(this, "指定路径不存在或者所指是个文件!");
+			} else {
+				okPressed = true;
+				setVisible(false);
+			}
+
+		} else if (source == cancelButton) {
 			setVisible(false);
-		} else if (source == cancelButton)
-			setVisible(false);
+		} else if (source == cleanButton) {
+			foders.setText("");
+		}
+
 	}
 
 	public boolean showDialog() {
@@ -97,6 +116,19 @@ public class InputDialog extends JDialog implements ActionListener {
 			insertText();
 		}
 		return okPressed;
+	}
+
+	private boolean isValidedFolder(String folders) {
+		String targetFolders[] = folders.split(";");
+		boolean result = true;
+		for (int i = 0; i < targetFolders.length; i++) {
+			File dir = new File(targetFolders[i]);
+			boolean isFolderAndExist = dir.isDirectory() && dir.exists();
+			if (!isFolderAndExist) {
+				return false;
+			}
+		}
+		return result;
 	}
 
 	private void insertText() {
@@ -163,7 +195,7 @@ public class InputDialog extends JDialog implements ActionListener {
 
 						}
 						for (int i = 0; i < files.length; i++) {
-							if (i > 0){
+							if (i > 0) {
 								content = content + ";";
 							}
 							content = content + files[i].getAbsolutePath();
