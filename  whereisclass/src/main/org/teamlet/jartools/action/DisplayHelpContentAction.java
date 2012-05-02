@@ -55,6 +55,7 @@ public class DisplayHelpContentAction extends AbstractAction {
 		info = "\nWhereIsClass是一个在jar中查找class的工具，允许通过关键字查找在单个或多个文件夹下所有jar中匹配的类。";
 		info = info + "\n需要的参数有两个，第一个是路径。允许有一个以上的路径，路径之间用分号(\";\")隔开；";
 		info = info + "\n第二个是关键字，也就是要查找的类的名字。关键字可以是要查找的类名的一部分，支持模糊匹配。";
+		info = info + "\n通过选择器可以多次选择路径，路径会自动累加。如果要清空路径，请点击清除按钮。";
 		outputMessage(document, style, info);
 
 		info = "\n当前版本";
@@ -79,6 +80,19 @@ public class DisplayHelpContentAction extends AbstractAction {
 		info = info + "\n命令行模式：";
 		info = info + "\nV0.2 2010-06-23";
 		info = info + "\nV0.1 2010-06-22";
+		StyleConstants.setFontSize(style, 14);
+		StyleConstants.setBold(style, false);
+		outputMessage(document, style, info);
+
+		info = "\n问题反馈：";
+		StyleConstants.setBold(style, true);
+		StyleConstants.setFontSize(style, 20);
+		outputMessage(document, style, info);
+
+		info = "\n请邮件至：";
+		info = info + "\nteamlet@gmail.com";
+		info = info + "\nhttp://code.google.com/p/whereisclass/";
+
 		StyleConstants.setFontSize(style, 14);
 		StyleConstants.setBold(style, false);
 		outputMessage(document, style, info);
