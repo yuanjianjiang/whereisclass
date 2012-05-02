@@ -60,7 +60,7 @@ public class InputDialog extends JDialog implements ActionListener {
 		JPanel p1 = new JPanel(new GridLayout(2, 2, 3, 3));
 		p1.add(new JLabel("folders:"));
 		p1.add(foders);
-		p1.add(getJButton());
+		p1.add(getChooseJButton());
 		p1.add(new JLabel("target name:"));
 		p1.add(targetClass);
 		contentPane.add("Center", p1);
@@ -163,8 +163,9 @@ public class InputDialog extends JDialog implements ActionListener {
 
 						}
 						for (int i = 0; i < files.length; i++) {
-							if (i == files.length - 1)
+							if (i > 0){
 								content = content + ";";
+							}
 							content = content + files[i].getAbsolutePath();
 						}
 						foders.setText(content);
@@ -177,7 +178,7 @@ public class InputDialog extends JDialog implements ActionListener {
 		return jFileChooser;
 	}
 
-	private JButton getJButton() {
+	private JButton getChooseJButton() {
 		JButton jButton = null;
 		if (jButton == null) {
 			jButton = new JButton("选择...");
