@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -24,7 +25,7 @@ import org.teamlet.jartools.action.OpenAction;
 public class GUIComponentFactory {
 
 	/**
-	 * 菜单条
+	 * 创建菜单条
 	 * 
 	 * @return
 	 */
@@ -65,12 +66,14 @@ public class GUIComponentFactory {
 	}
 
 	/**
-	 * 文本窗体
+	 * 创建文本窗体
 	 * 
 	 * @return
 	 */
-	public static JTextPane buildTextPane() {
+	public static JScrollPane buildTextPane() {
+
 		JTextPane textPane = null;
+
 		StyleContext context = new StyleContext();
 		StyledDocument document = new DefaultStyledDocument(context);
 		GUIContext.put(GUIConstant.DOCUMENT, document);
@@ -89,7 +92,7 @@ public class GUIComponentFactory {
 
 		textPane = new JTextPane(document);
 		textPane.setEditable(false);
-
-		return textPane;
+		JScrollPane scrollPane = new JScrollPane(textPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		return scrollPane;
 	}
 }
